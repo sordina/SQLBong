@@ -16,10 +16,17 @@
 const char sep_default = ' ';
 
 static int callback(void *userArg, int count, char **columns, char **column_names){
+
+#ifdef DEBUG
 	printf("Columns in query: %d\n", count);
+#endif
+
 	int i;
 	for(i=0; i<count; i++){
+
+		// Main Program output!
 		printf("%s", columns[i] ? columns[i] : "\"\"");
+
 		if(i + 1 < count) {
 			printf(" "); // TODO: Space columns more nicely somehow
 		}
@@ -30,7 +37,9 @@ static int callback(void *userArg, int count, char **columns, char **column_name
 
 int main(int argc, char **argv){
 
+#ifdef DEBUG
 	printf("Inside main.\n");
+#endif
 
 	sqlite3 *db;
 	char *zErrMsg = 0;
@@ -43,7 +52,11 @@ int main(int argc, char **argv){
 	char line[10000]; // TODO: Use a real getline implementation
 
 	if( ! --argc ) {
+
+#ifdef DEBUG
 		fprintf(stderr, "Usage: %s <sql>*\n", argv[0]);
+#endif
+
 		return(1);
 	}
 
@@ -53,26 +66,36 @@ int main(int argc, char **argv){
 	// Create a table with an inital 9 columns. Why 9? Because.
 	rc = sqlite3_exec(db, "create table data (c1)", NULL, NULL, &zErrMsg);
 	if( rc!=SQLITE_OK ){
+
+#ifdef DEBUG
 		fprintf(stderr, "SQL error: [%s], For table creation.\n", zErrMsg);
+#endif
+
 		sqlite3_free(zErrMsg);
 		return(1);
 	}
 
 	// Parse stdin, expanding table where necessary
 	while(gets(line)) {
+
+#ifdef DEBUG
 		printf("Line: %s\n", line);
-		
+#endif
+
 		words = getwords(line, &numwords);
 
+#ifdef DEBUG
 		if( ! words ) {
 			fprintf(stderr, "No words on this line.\n");
-			return(1);
 		}
+#endif
 
+#ifdef DEBUG
 		int j;
 		for(j = 0; j < numwords; j++) {
 			printf("Inside SQLPipe - Word: [%s]\n", words[j]);
 		}
+#endif
 
 		// Adjust table size if needed
 		if(numwords > columns) {
@@ -81,7 +104,10 @@ int main(int argc, char **argv){
 
 			while(columns++ < numwords) {
 				sprintf(command, "alter table data add column c%d", columns);
+
+#ifdef DEBUG
 				printf("Adding new column with command [%s]\n", command);
+#endif
 
 				rc = sqlite3_exec(db, command, NULL, NULL, &zErrMsg);
 				if( rc!=SQLITE_OK ){
@@ -93,7 +119,10 @@ int main(int argc, char **argv){
 		}
 
 		char* insert_statement = insert(numwords);
+
+#ifdef DEBUG
 		printf("Created insert statement [%s].\n", insert_statement);
+#endif
 
 		sqlite3_stmt *stmt;
 
@@ -105,21 +134,25 @@ int main(int argc, char **argv){
 		int i;
 		for(i = 0; i < numwords; i++) {
 			if ( sqlite3_bind_text ( stmt, i+1, words[i], -1 /* length of text */, SQLITE_STATIC ) != SQLITE_OK ) {
-				printf("\nCould not bind int.\n");
+				fprintf(stderr,"\nCould not bind int.\n");
 				return 1;
 			}
 		}
 
 		if (sqlite3_step(stmt) != SQLITE_DONE) {
-			printf("\nCould not step (execute) stmt.\n");
+			fprintf(stderr,"\nCould not step (execute) stmt.\n");
 			return 1;
 		}
 	}
 
 	// Run all queries
 	for( head=1; head <= argc; head++ ) {
+
+#ifdef DEBUG
 		printf("Query: %s\n", argv[head]);
 		printf("Results:\n");
+#endif
+
 		rc = sqlite3_exec(db, argv[head], callback, NULL, &zErrMsg);
 
 		if( rc!=SQLITE_OK ){

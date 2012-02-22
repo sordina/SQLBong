@@ -14,25 +14,35 @@ char** getwords(char* line, int* numwords) { // TODO: Take a size param to make 
 
 	while(word = getword(' ', &p)) {
 
+#if DEBUG
 		printf("Inside getwords - Got word:     [%s]\n", word);
 		printf("Inside getwords - Rest of line: [%s]\n", p);
+#endif
 
 		if(*numwords >= cap) {
 			cap = (cap + 1) * 2 * sizeof(char*);
 			realloc(result, cap);
+#ifdef DEBUG
 			printf("Inside getwords - Reallocated.\n");
+#endif
 		}
 
+#ifdef DEBUG
 		printf("Inside getwords - Numwords: %d, Cap: %d\n", *numwords, cap);
+#endif
 
 		result[*numwords] = word;
 
+#ifdef DEBUG
 		printf("Inside getwords - Assigned word to list.\n");
+#endif
 
 		(*numwords)++;
 	}
 
+#ifdef DEBUG
 	printf("Inside getwords - Finished getting words: %d\n", *numwords);
+#endif
 
 	return result;
 }

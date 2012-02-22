@@ -24,7 +24,9 @@ char* getword(char delim, char** line) { // TODO: Take a size param to make this
 
 	while(**line == delim) { (*line)++; }
 
-	printf("Inside getword - Got result:    [%s]\n", result);
+#ifdef DEBUG
+	printf("Inside getword - Got result: [%s]\n", result);
+#endif
 
 	return result;
 }
