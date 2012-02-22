@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sqlite3.h>
 #include "getwords.h"
+#include "question.h"
 
 /*
  * Example: (echo "1 2 3"; echo "4 5 6"; echo "7 8 9") | sqlpipe "select c1 c3 from data" "select c2 + c3 from data where c1 + c2 > 5 order by c3 desc"
@@ -60,18 +61,25 @@ int main(int argc, char **argv){
 	// Parse stdin, expanding table where necessary
 	while(gets(line)) {
 		printf("Line: %s\n", line);
+		
 		words = getwords(line, &numwords);
-		if( words ) {
-			int j;
-			for(j = 0; j < numwords; j++) {
-				printf("Inside SQLPipe - Word: [%s]\n", words[j]);
-			}
 
-			// Adjust table size if needed
-			if(numwords > columns) {
-				char command[400];
-				columns = numwords;
+		if( ! words ) { sprintf(stderr, "No words on this line.\n"); }
+
+		int j;
+		for(j = 0; j < numwords; j++) {
+			printf("Inside SQLPipe - Word: [%s]\n", words[j]);
+		}
+
+		// Adjust table size if needed
+		if(numwords > columns) {
+
+			char command[400];
+
+			while(columns++ < numwords) {
 				sprintf(command, "alter table data add column c%d", columns);
+				printf("Adding new column with command [%s]\n", command);
+
 				rc = sqlite3_exec(db, command, NULL, NULL, &zErrMsg);
 				if( rc!=SQLITE_OK ){
 					fprintf(stderr, "SQL error: [%s], For command [%s]\n", zErrMsg, command);
@@ -79,21 +87,33 @@ int main(int argc, char **argv){
 					return(1);
 				}
 			}
-
-			// Insert Data
-			char command[400];
-			sprintf(command, "alter table data add column c%d", columns);
-			rc = sqlite3_exec(db, command, NULL, NULL, &zErrMsg);
-			if( rc!=SQLITE_OK ){
-				fprintf(stderr, "SQL error: [%s], For command [%s]\n", zErrMsg, command);
-				sqlite3_free(zErrMsg);
-				return(1);
-			}
-
-			freewords(words, numwords);
-		} else {
-			fprintf(stderr, "Error accessing getword results.\n");
 		}
+
+		char* insert_statement = insert(numwords);
+		printf("Created insert statement [%s].\n", insert_statement);
+
+		sqlite3_stmt *stmt;
+
+		if ( sqlite3_prepare( db, insert_statement, -1, &stmt, 0 ) != SQLITE_OK ) {
+			sprintf(stderr, "Could not prepare statement\n.");
+			return 1;
+		}
+
+		int i;
+		for(i = 0; i < numwords; i++) {
+			if ( sqlite3_bind_text ( stmt, i+1, words[i], -1 /* length of text */, SQLITE_STATIC ) != SQLITE_OK ) {
+				printf("\nCould not bind int.\n");
+				return 1;
+			}
+		}
+
+		if (sqlite3_step(stmt) != SQLITE_DONE) {
+			printf("\nCould not step (execute) stmt.\n");
+			return 1;
+		}
+
+		free(insert_statement);
+		freewords(words, numwords);
 	}
 
 	// Run all queries
