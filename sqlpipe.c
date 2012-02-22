@@ -64,7 +64,10 @@ int main(int argc, char **argv){
 		
 		words = getwords(line, &numwords);
 
-		if( ! words ) { sprintf(stderr, "No words on this line.\n"); }
+		if( ! words ) {
+			fprintf(stderr, "No words on this line.\n");
+			return(1);
+		}
 
 		int j;
 		for(j = 0; j < numwords; j++) {
@@ -95,7 +98,7 @@ int main(int argc, char **argv){
 		sqlite3_stmt *stmt;
 
 		if ( sqlite3_prepare( db, insert_statement, -1, &stmt, 0 ) != SQLITE_OK ) {
-			sprintf(stderr, "Could not prepare statement\n.");
+			fprintf(stderr, "Could not prepare statement\n.");
 			return 1;
 		}
 
