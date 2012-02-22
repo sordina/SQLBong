@@ -52,11 +52,7 @@ int main(int argc, char **argv){
 	char line[10000]; // TODO: Use a real getline implementation
 
 	if( ! --argc ) {
-
-#ifdef DEBUG
 		fprintf(stderr, "Usage: %s <sql>*\n", argv[0]);
-#endif
-
 		return(1);
 	}
 
