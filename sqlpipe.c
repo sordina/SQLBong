@@ -51,6 +51,7 @@ int main(int argc, char **argv){
 	int columns = 1;
 	int head = 0;
 	char line[10000]; // TODO: Use a real getline implementation
+	int line_buffer_length = 1000;
 
 	if( ! --argc ) {
 		fprintf(stderr, "Usage: %s <sql>*\n", argv[0]);
@@ -73,7 +74,7 @@ int main(int argc, char **argv){
 	}
 
 	// Parse stdin, expanding table where necessary
-	while(gets(line)) {
+	while(fgets(line, line_buffer_length, stdin)) {
 
 #ifdef DEBUG
 		printf("Line: %s\n", line);
