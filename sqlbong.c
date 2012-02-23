@@ -147,6 +147,8 @@ int main(int argc, char **argv){
 			fprintf(stderr,"\nCould not step (execute) stmt.\n");
 			return 1;
 		}
+
+		free(insert_statement);
 	}
 
 	// Run all queries

@@ -21,3 +21,5 @@ runtests:
 	(echo 1; echo 1 2; echo 1 2 3; echo 1 2 3 4)           | ./sqlbong "select c1, c2, c4 from data"
 	# Decreasing columns
 	(echo 1; echo 1 2; echo 1 2 3; echo 1 2; echo 1)       | ./sqlbong "select c1, c3, c2 from data"
+	# Blank lines
+	(echo 1 3 2 4; echo; echo 1 2 3)                       | ./sqlbong "select c2 from data"
