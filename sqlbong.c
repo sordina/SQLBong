@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <sqlite3.h>
 
+// #define DEBUG 1
+
 #include "getwords.h"
 #include "question.h"
 
@@ -131,7 +133,8 @@ int main(int argc, char **argv){
 
 		int i;
 		for(i = 0; i < numwords; i++) {
-			if ( sqlite3_bind_text ( stmt, i+1, words[i], -1 /* length of text */, SQLITE_STATIC ) != SQLITE_OK ) {
+			// SQLITE_TRANSIENT allows words to be freed
+			if ( sqlite3_bind_text ( stmt, i+1, words[i], -1 /* length of text */, SQLITE_TRANSIENT ) != SQLITE_OK ) {
 				fprintf(stderr,"\nCould not bind int.\n");
 				return 1;
 			}
