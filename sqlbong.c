@@ -4,7 +4,7 @@
 // #define DEBUG 1
 
 #include "getwords.h"
-#include "question.h"
+#include "build_insert_statement.h"
 
 /*
  * Example: (echo "1 2 3"; echo "4 5 6"; echo "7 8 9") | sqlbong "select c1 c3 from data" "select c2 + c3 from data where c1 + c2 > 5 order by c3 desc"
