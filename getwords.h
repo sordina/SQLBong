@@ -40,6 +40,13 @@ char** getwords(char* line, int* numwords) { // TODO: Take a size param to make 
 		(*numwords)++;
 	}
 
+	if(0 == *numwords) {
+#ifdef DEBUG
+		printf("Inside getwords - No words\n");
+#endif
+		return NULL;
+	}
+
 #ifdef DEBUG
 	printf("Inside getwords - Finished getting words: %d\n", *numwords);
 #endif

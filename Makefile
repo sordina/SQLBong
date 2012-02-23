@@ -24,4 +24,7 @@ runtests:
 	# Blank lines
 	(echo 1 3 2 4; echo; echo 1 2 3)                       | ./sqlbong "select c2 from data"
 	# Long words
-	(echo ksjdhfklsjdhfksjhdfkjshdl; echo abdominogenital) | ./sqlbong "select c1 from data"
+	(echo ksjdhfklsjdhfksjhdfkjshdl; \
+	 echo abdominogenital; \
+	 echo skfdjlhasldkfhlaskdjfhlaksdjhflkjahs; \
+	 echo foooooooooooofoo fooooof fooooooooooooo)         | ./sqlbong "select c1, c2 from data"

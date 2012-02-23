@@ -150,6 +150,7 @@ int main(int argc, char **argv){
 			int i;
 			for(i = 0; i < numwords; i++) {
 
+				// SQLITE_TRANSIENT allows words to be freed
 				if ( sqlite3_bind_text ( stmt, i+1, words[i], -1 /* length of text */, SQLITE_TRANSIENT ) != SQLITE_OK ) {
 					fprintf(stderr,"\nCould not bind int to word [%s].\n", words[i]);
 					return 1;
@@ -159,14 +160,13 @@ int main(int argc, char **argv){
 				printf("Bound word [%s].\n", words[i]);
 #endif
 
-				free(words[i]); // SQLITE_TRANSIENT allows words to be freed
+				free(words[i]);
 
 #ifdef DEBUG
 				printf("Freed word [%s].\n", words[i]);
 #endif
 
 			}
-
 			free(words); // words is no longer used
 
 #ifdef DEBUG

@@ -4,29 +4,46 @@
 #include <stdlib.h>
 #include <string.h>
 
-char* getword(char delim, char** line) { // TODO: Take a size param to make this safe
+char* getword(char delim, char** line) {
 
-	char* start = *line;
-	char* result;
-	int   letters;
+	// Skip leading delimiters
+	while(**line == delim) {
+#ifdef DEBUG
+		printf("Inside getword - removing leading delimiter.\n");
+#endif
+		(*line)++;
+	}
 
-	while(**line && **line != '\n' && **line != EOF && **line != delim) { (*line)++; }
+	char* word_start = *line;
+	char* word_end;
 
-	if(start == *line) {
+	// Is this an empty line?
+	if(**line == EOF || **line == '\n') { return NULL; }
+
+	// Proceed to the end of the word
+	while (**line != EOF && **line != '\n' && **line != delim) {
+			word_end = *line;
+			(*line)++;
+	}
+
+	int word_length = 1 + word_end - word_start;
+
+#if DEBUG
+	printf("Inside getword - word length: [%d] characters.\n", word_length);
+#endif
+
+	if(word_length < 1) {
+#ifdef DEBUG
+		printf("Inside getword - Blank word.\n");
+#endif
 		return NULL;
 	}
 
-	letters = (int) (*line - start);
+	char* result = malloc(sizeof(char) * (word_length + 1));
 
-	result = malloc(sizeof(char) * (letters + 1));
-	memcpy(result, start, letters);
-	result[letters + 1] = '\0';
+	memcpy(result, word_start, word_length);
 
-	while(**line == delim) { (*line)++; }
-
-#ifdef DEBUG
-	printf("Inside getword - Got result: [%s]\n", result);
-#endif
+	result[word_length] = '\0';
 
 	return result;
 }
