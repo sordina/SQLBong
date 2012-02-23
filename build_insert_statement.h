@@ -11,7 +11,7 @@ char* insert(int num) {
 	const int   boiler_len = dlen + vlen;
 	const int   dyn_factor = 1 + (int) log10(num);
 	const int   dyn_len    = dyn_factor * num; // represents the size of the column-number text (minus formatting) (overshoots estimate by log(n) factor)
-	char*       dyn_part   = malloc(sizeof(char) * dyn_factor + 3);
+	char*       dyn_part   = malloc(sizeof(char) * dyn_factor + 3); // constant is 'c' ',' '\0'
 	char*       result     = malloc(sizeof(char) * (boiler_len + (3 * num) + dyn_len));
 	char*       p          = result; // movable pointer for printing
 
