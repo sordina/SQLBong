@@ -9,7 +9,7 @@ Parse columnized output with SQL - Thanks to the power of SQLite3
 
     > cat test.txt | ./sqlpipe "select c2 from data limit 2" "select c1, c3, c2 from data where c2 > '4' order by c3 desc"
 
-## Data - test.txt:
+## test.txt:
 
     1 2 3
     2 3 4
