@@ -20,8 +20,8 @@ char** getwords(char* line, int* numwords) { // TODO: Take a size param to make 
 #endif
 
 		if(*numwords >= cap) {
-			cap = (cap + 1) * 2 * sizeof(char*);
-			realloc(result, cap);
+			cap = (cap + 2) * 2 * sizeof(char*); // TODO: Why does this need to be cap + 2 ?
+			result = realloc(result, cap);
 #ifdef DEBUG
 			printf("Inside getwords - Reallocated.\n");
 #endif

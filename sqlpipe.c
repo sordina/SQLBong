@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sqlite3.h>
+
 #include "getwords.h"
 #include "question.h"
 
@@ -15,7 +16,7 @@
 
 const char sep_default = ' ';
 
-static int callback(void *userArg, int count, char **columns, char **column_names){
+static int callback(void* userArg, int count, char** columns, char** column_names){
 
 #ifdef DEBUG
 	printf("Columns in query: %d\n", count);

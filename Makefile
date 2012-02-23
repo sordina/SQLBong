@@ -5,4 +5,4 @@ clean:
 	rm sqlpipe
 
 test: all
-	(echo 1 2 3; echo 4 5 6; echo 7 8 9) | ./sqlpipe "select c1, c2 from data"
+	(echo 111 222 333; echo 444 555 666; echo 777 888 999) | ./sqlpipe "select c1, c2 from data"

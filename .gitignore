@@ -1,2 +1,3 @@
 sqlpipe
 sqlpipe.dSYM/
+*.o
