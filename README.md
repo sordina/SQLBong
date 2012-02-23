@@ -5,14 +5,12 @@ SQLPipe
 
 Parse columnized output with SQL - Thanks to the power of SQLite3
 
-Example:
+## Example:
 
     > cat test.txt | ./sqlpipe "select c2 from data limit 2" "select c1, c3, c2 from data where c2 > '4' order by c3 desc"
 
-Data - test.txt:
+## Data - test.txt:
 
-    2
-    3
     1 2 3
     2 3 4
     3 4 5
@@ -20,8 +18,10 @@ Data - test.txt:
     5 6 7
     6 7 8
 
-Output:
+## Output:
 
+    2
+    3
     6 8 7
     5 7 6
     4 6 5
