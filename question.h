@@ -1,6 +1,8 @@
 
 #include <stdio.h>
 
+// TODO: Match data items and column data
+//
 char* insert(int num) {
 
 	const char* statement = "insert into data values(";
