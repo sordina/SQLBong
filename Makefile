@@ -1,11 +1,20 @@
+Compiler = clang
+Options  = -Wall sqlbong.c -lsqlite3 -o sqlbong
+
 all:
-	# gcc sqlbong.c -lsqlite3 -o sqlbong
-	clang -Wall sqlbong.c -lsqlite3 -o sqlbong
+	${Compiler} ${Options}
+
+debug:
+	${Compiler} -DDEBUG=1 ${Options}
 
 clean:
 	rm -f sqlbong *.o sql*SYM/
 
-test: all
+test: all runtests
+
+testdebug: debug runtests
+
+runtests:
 	# Multi column data
 	(echo 111 222 333; echo 444 555 666; echo 777 888 999) | ./sqlbong "select c1, c2 from data"
 	# Increasing columns
