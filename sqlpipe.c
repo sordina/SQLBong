@@ -5,7 +5,7 @@
 #include "question.h"
 
 /*
- * Example: (echo "1 2 3"; echo "4 5 6"; echo "7 8 9") | sqlpipe "select c1 c3 from data" "select c2 + c3 from data where c1 + c2 > 5 order by c3 desc"
+ * Example: (echo "1 2 3"; echo "4 5 6"; echo "7 8 9") | sqlbong "select c1 c3 from data" "select c2 + c3 from data where c1 + c2 > 5 order by c3 desc"
  *
  * Output:  1  3
  *          4  6
@@ -91,7 +91,7 @@ int main(int argc, char **argv){
 #ifdef DEBUG
 		int j;
 		for(j = 0; j < numwords; j++) {
-			printf("Inside SQLPipe - Word: [%s]\n", words[j]);
+			printf("Inside SQLBong - Word: [%s]\n", words[j]);
 		}
 #endif
 
