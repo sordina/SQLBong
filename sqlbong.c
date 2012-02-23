@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <sqlite3.h>
 
-// #define DEBUG 1
+// #define DEBUG 1 -- make debug does this now
 
 #include "getwords.h"
 #include "build_insert_statement.h"
@@ -143,17 +143,35 @@ int main(int argc, char **argv){
 				return 1;
 			}
 
+#ifdef DEBUG
+			printf("Prepared insert statement.\n");
+#endif
+
 			int i;
 			for(i = 0; i < numwords; i++) {
+
 				if ( sqlite3_bind_text ( stmt, i+1, words[i], -1 /* length of text */, SQLITE_TRANSIENT ) != SQLITE_OK ) {
 					fprintf(stderr,"\nCould not bind int to word [%s].\n", words[i]);
 					return 1;
 				}
 
+#ifdef DEBUG
+				printf("Bound word [%s].\n", words[i]);
+#endif
+
 				free(words[i]); // SQLITE_TRANSIENT allows words to be freed
+
+#ifdef DEBUG
+				printf("Freed word [%s].\n", words[i]);
+#endif
+
 			}
 
 			free(words); // words is no longer used
+
+#ifdef DEBUG
+			printf("Freed words.\n");
+#endif
 
 			if (sqlite3_step(stmt) != SQLITE_DONE) {
 				fprintf(stderr,"\nCould not step (execute) stmt.\n");
