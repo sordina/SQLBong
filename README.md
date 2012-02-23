@@ -5,6 +5,10 @@ SQLBong
 
 Parse columnized output with SQL - Thanks to the power of SQLite3
 
+The SQL syntax accepted is completely determined by what <a href="http://www.sqlite.org/">SQLite3</a> supports.
+
+Why the name? `SQLPipe` was taken.
+
 ## Example:
 
     > cat test.txt | ./sqlbong "select c2 from data limit 2" "select c1, c3, c2 from data where c2 > '4' order by c3 desc"
