@@ -13,3 +13,10 @@ Output:
 
     1 5 4
     2
+
+
+Known Bugs
+----------
+
+* Does not currently handle all input
+* Realloc requires too much memory in getwords.h
