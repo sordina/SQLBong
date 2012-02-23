@@ -12,7 +12,7 @@ char** getwords(char* line, int* numwords) { // TODO: Take a size param to make 
 
 	*numwords = 0;
 
-	while(word = getword(' ', &p)) {
+	while((word = getword(' ', &p))) {
 
 #if DEBUG
 		printf("Inside getwords - Got word:     [%s]\n", word);

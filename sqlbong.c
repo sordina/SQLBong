@@ -28,7 +28,7 @@ static int callback(void* userArg, int count, char** columns, char** column_name
 	for(i=0; i<count; i++){
 
 		// Main Program output!
-		printf("%s", columns[i] ? columns[i] : "\"\"");
+		printf("%s", columns[i] ? columns[i] : " "); // TODO: Decide what to do with null columns
 
 		if(i + 1 < count) {
 			printf(" "); // TODO: Space columns more nicely somehow
@@ -47,7 +47,6 @@ int main(int argc, char **argv){
 	sqlite3 *db;
 	char *zErrMsg = 0;
 	int rc;
-	char c;
 	char** words;
 	int numwords;
 	int columns = 1;
@@ -100,9 +99,10 @@ int main(int argc, char **argv){
 		// Adjust table size if needed
 		if(numwords > columns) {
 
-			char command[400];
+			char command[400]; // TODO: Possible overrun here
 
-			while(columns++ < numwords) {
+			while(columns < numwords) {
+				columns++;
 				sprintf(command, "alter table data add column c%d", columns);
 
 #ifdef DEBUG
@@ -127,7 +127,7 @@ int main(int argc, char **argv){
 		sqlite3_stmt *stmt;
 
 		if ( sqlite3_prepare( db, insert_statement, -1, &stmt, 0 ) != SQLITE_OK ) {
-			fprintf(stderr, "Could not prepare statement\n.");
+			fprintf(stderr, "Could not prepare statement [%s]\n.", insert_statement);
 			return 1;
 		}
 
