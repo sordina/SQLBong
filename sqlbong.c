@@ -118,37 +118,50 @@ int main(int argc, char **argv){
 			}
 		}
 
-		char* insert_statement = insert(numwords);
+		if(numwords < 1) {
+
+			rc = sqlite3_exec(db, "insert into data(c1) values(NULL)", NULL, NULL, &zErrMsg);
+
+			if( rc!=SQLITE_OK ){
+				fprintf(stderr, "SQL error: %s\n", zErrMsg);
+				sqlite3_free(zErrMsg);
+				return(1);
+			}
+
+		} else {
+
+			char* insert_statement = insert(numwords);
 
 #ifdef DEBUG
-		printf("Created insert statement [%s].\n", insert_statement);
+			printf("Created insert statement [%s].\n", insert_statement);
 #endif
 
-		sqlite3_stmt *stmt;
+			sqlite3_stmt *stmt;
 
-		if ( sqlite3_prepare( db, insert_statement, -1, &stmt, 0 ) != SQLITE_OK ) {
-			fprintf(stderr, "Could not prepare statement [%s]\n.", insert_statement);
-			return 1;
-		}
-
-		int i;
-		for(i = 0; i < numwords; i++) {
-			if ( sqlite3_bind_text ( stmt, i+1, words[i], -1 /* length of text */, SQLITE_TRANSIENT ) != SQLITE_OK ) {
-				fprintf(stderr,"\nCould not bind int to word [%s].\n", words[i]);
+			if ( sqlite3_prepare( db, insert_statement, -1, &stmt, 0 ) != SQLITE_OK ) {
+				fprintf(stderr, "Could not prepare statement [%s]\n.", insert_statement);
 				return 1;
 			}
 
-			free(words[i]); // SQLITE_TRANSIENT allows words to be freed
+			int i;
+			for(i = 0; i < numwords; i++) {
+				if ( sqlite3_bind_text ( stmt, i+1, words[i], -1 /* length of text */, SQLITE_TRANSIENT ) != SQLITE_OK ) {
+					fprintf(stderr,"\nCould not bind int to word [%s].\n", words[i]);
+					return 1;
+				}
+
+				free(words[i]); // SQLITE_TRANSIENT allows words to be freed
+			}
+
+			free(words); // words is no longer used
+
+			if (sqlite3_step(stmt) != SQLITE_DONE) {
+				fprintf(stderr,"\nCould not step (execute) stmt.\n");
+				return 1;
+			}
+
+			free(insert_statement);
 		}
-
-		free(words); // words is no longer used
-
-		if (sqlite3_step(stmt) != SQLITE_DONE) {
-			fprintf(stderr,"\nCould not step (execute) stmt.\n");
-			return 1;
-		}
-
-		free(insert_statement);
 	}
 
 	// Run all queries
