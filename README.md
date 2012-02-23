@@ -42,3 +42,11 @@ Known Bugs
 
 * Does not currently handle all input
 * Realloc requires too much memory in getwords.h
+
+To Do
+-----
+
+* Add support for command-line arguments
+  - Specify delimiter (regex?)
+  - Specify alignment for input data if columns are missing
+  - Specify how to handle nulls for input, and output
