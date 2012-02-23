@@ -7,19 +7,12 @@ Parse columnized output with SQL - Thanks to the power of SQLite3
 
 Example:
 
-    > echo "1 2 3 4 5" | ./sqlpipe "select c1, c5, c4 from data" "select c2 from data"
-
-Output:
-
-    1 5 4
-    2
-
-Example:
-
-    > cat test.txt | ./sqlpipe "select c1, c3, c2 from data where c2 > '4' order by c3 desc"
+    > cat test.txt | ./sqlpipe "select c2 from data limit 2" "select c1, c3, c2 from data where c2 > '4' order by c3 desc"
 
 Data - test.txt:
 
+    2
+    3
     1 2 3
     2 3 4
     3 4 5
@@ -33,6 +26,12 @@ Output:
     5 7 6
     4 6 5
 
+Details:
+--------
+
+* The table used is called 'data'.
+* There are as many columns in 'data' as the maximum number of columns in the input data.
+* Data is stored as 'text' type. Useful to remember for comparisons, numeric operations.
 
 Known Bugs
 ----------
