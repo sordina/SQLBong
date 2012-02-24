@@ -3,6 +3,10 @@
 
 char* insert(int num) {
 
+#ifdef DEBUG
+	printf("Inside Builder - Number of items: [%d].\n", num);
+#endif
+
 	// TODO: This is quite fragile be careful if modifying
 	const char* dstmt      = "insert into data()";
 	const char* vstmt      = " values()";

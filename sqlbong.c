@@ -16,6 +16,13 @@
  *          11
  */
 
+#define HANDLE_ERROR(rc)                              \
+		if( rc!=SQLITE_OK ){                              \
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);    \
+			sqlite3_free(zErrMsg);                          \
+			exit(1);                                        \
+		}
+
 const char sep_default = ' ';
 
 static int callback(void* userArg, int count, char** columns, char** column_names){
@@ -48,7 +55,7 @@ int main(int argc, char **argv){
 	char *zErrMsg = 0;
 	int rc;
 	char** words;
-	int numwords;
+	int numwords = 0;
 	int columns = 1;
 	int head = 0;
 	char line[10000]; // TODO: Use a real getline implementation
@@ -64,15 +71,7 @@ int main(int argc, char **argv){
 
 	// Create a table with an inital 9 columns. Why 9? Because.
 	rc = sqlite3_exec(db, "create table data (c1)", NULL, NULL, &zErrMsg);
-	if( rc!=SQLITE_OK ){
-
-#ifdef DEBUG
-		fprintf(stderr, "SQL error: [%s], For table creation.\n", zErrMsg);
-#endif
-
-		sqlite3_free(zErrMsg);
-		return(1);
-	}
+	HANDLE_ERROR(rc);
 
 	// Parse stdin, expanding table where necessary
 	while(fgets(line, line_buffer_length, stdin)) {
@@ -99,7 +98,7 @@ int main(int argc, char **argv){
 		// Adjust table size if needed
 		if(numwords > columns) {
 
-			char command[400]; // TODO: Possible overrun here
+			char* command = malloc(sizeof(char) * 400); // TODO: Overrun possibility (slight); Free later
 
 			while(columns < numwords) {
 				columns++;
@@ -109,24 +108,16 @@ int main(int argc, char **argv){
 				printf("Adding new column with command [%s]\n", command);
 #endif
 
+				// TODO: Ensure that this is okay
 				rc = sqlite3_exec(db, command, NULL, NULL, &zErrMsg);
-				if( rc!=SQLITE_OK ){
-					fprintf(stderr, "SQL error: [%s], For command [%s]\n", zErrMsg, command);
-					sqlite3_free(zErrMsg);
-					return(1);
-				}
+				HANDLE_ERROR(rc);
 			}
 		}
 
 		if(numwords < 1) {
 
 			rc = sqlite3_exec(db, "insert into data(c1) values(NULL)", NULL, NULL, &zErrMsg);
-
-			if( rc!=SQLITE_OK ){
-				fprintf(stderr, "SQL error: %s\n", zErrMsg);
-				sqlite3_free(zErrMsg);
-				return(1);
-			}
+			HANDLE_ERROR(rc);
 
 		} else {
 
@@ -160,10 +151,12 @@ int main(int argc, char **argv){
 				printf("Bound word [%s].\n", words[i]);
 #endif
 
-				free(words[i]);
-
 #ifdef DEBUG
-				printf("Freed word [%s].\n", words[i]);
+				printf("Freeing word [%s].\n", words[i]);
+#endif
+				// free(words[i]);
+#ifdef DEBUG
+				printf("Freed word.\n");
 #endif
 
 			}
@@ -178,6 +171,7 @@ int main(int argc, char **argv){
 				return 1;
 			}
 
+			sqlite3_reset(stmt);
 			free(insert_statement);
 		}
 	}
@@ -191,12 +185,7 @@ int main(int argc, char **argv){
 #endif
 
 		rc = sqlite3_exec(db, argv[head], callback, NULL, &zErrMsg);
-
-		if( rc!=SQLITE_OK ){
-			fprintf(stderr, "SQL error: %s\n", zErrMsg);
-			sqlite3_free(zErrMsg);
-			return(1);
-		}
+		HANDLE_ERROR(rc);
 	}
 
 	sqlite3_close(db);

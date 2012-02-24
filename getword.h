@@ -18,10 +18,10 @@ char* getword(char delim, char** line) {
 	char* word_end;
 
 	// Is this an empty line?
-	if(**line == EOF || **line == '\n') { return NULL; }
+	if((!line) || **line == EOF || **line == '\n') { return NULL; }
 
 	// Proceed to the end of the word
-	while (**line != EOF && **line != '\n' && **line != delim) {
+	while (**line && **line != EOF && **line != '\n' && **line != delim) {
 			word_end = *line;
 			(*line)++;
 	}

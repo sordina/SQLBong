@@ -5,7 +5,7 @@ all:
 	${Compiler} ${Options}
 
 debug:
-	${Compiler} -DDEBUG=1 ${Options}
+	${Compiler} -ggdb -DDEBUG=1 ${Options}
 
 clean:
 	rm -f sqlbong *.o sql*SYM/
@@ -28,3 +28,7 @@ runtests:
 	 echo abdominogenital; \
 	 echo skfdjlhasldkfhlaskdjfhlaksdjhflkjahs; \
 	 echo foooooooooooofoo fooooof fooooooooooooo)         | ./sqlbong "select c1, c2 from data"
+	# Not sure why it's throwing an error, but:
+	echo "95585 ttys002    0:03.11 vim sqlbong.c"          | ./sqlbong "select * from data"
+	# Lots of words
+	echo a b c d e f g h i j k l m n o p q r s t u v w x y | ./sqlbong "select * from data"

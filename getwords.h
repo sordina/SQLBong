@@ -5,21 +5,19 @@
 
 char** getwords(char* line, int* numwords) { // TODO: Take a size param to make this safe
 
-	char* p = line;
 	char* word;
 	int cap = 0;
 	char** result = malloc(1);
 
 	*numwords = 0;
 
-	while((word = getword(' ', &p))) {
+	while((word = getword(' ', &line))) {
 
 #if DEBUG
-		printf("Inside getwords - Got word:     [%s]\n", word);
-		printf("Inside getwords - Rest of line: [%s]\n", p);
+		printf("Inside getwords - Got word: [%s], rest of line: [%s]\n", word, line);
 #endif
 
-		if(*numwords >= cap) {
+		if(*numwords >= cap / 2) {
 			cap = (cap + 2) * 2 * sizeof(char*); // TODO: Why does this need to be cap + 2 ?
 			result = realloc(result, cap);
 #ifdef DEBUG
@@ -44,6 +42,7 @@ char** getwords(char* line, int* numwords) { // TODO: Take a size param to make 
 #ifdef DEBUG
 		printf("Inside getwords - No words\n");
 #endif
+		free(result);
 		return NULL;
 	}
 
@@ -52,16 +51,6 @@ char** getwords(char* line, int* numwords) { // TODO: Take a size param to make 
 #endif
 
 	return result;
-}
-
-void freewords(char** words, int num) {
-	char** p = words;
-
-	while( --num ) {
-		free(*(p++));
-	}
-
-	free(words);
 }
 
 #endif
