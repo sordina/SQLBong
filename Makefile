@@ -8,7 +8,7 @@ debug:
 	${Compiler} -ggdb -DDEBUG=1 ${Options}
 
 clean:
-	rm -f sqlbong *.o sql*SYM/
+	rm -rf sqlbong *.o sql*SYM/
 
 test: all runtests
 
