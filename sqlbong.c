@@ -1,10 +1,16 @@
 #include <stdio.h>
 #include <sqlite3.h>
 
-// #define DEBUG 1 -- make debug does this now
+#define HANDLE_ERROR(rc)                              \
+		if( rc!=SQLITE_OK ){                              \
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);    \
+			sqlite3_free(zErrMsg);                          \
+			exit(1);                                        \
+		}
 
 #include "getwords.h"
 #include "build_insert_statement.h"
+#include "process_line.h"
 
 /*
  * Example: (echo "1 2 3"; echo "4 5 6"; echo "7 8 9") | sqlbong "select c1 c3 from data" "select c2 + c3 from data where c1 + c2 > 5 order by c3 desc"
@@ -15,13 +21,6 @@
  *          17
  *          11
  */
-
-#define HANDLE_ERROR(rc)                              \
-		if( rc!=SQLITE_OK ){                              \
-			fprintf(stderr, "SQL error: %s\n", zErrMsg);    \
-			sqlite3_free(zErrMsg);                          \
-			exit(1);                                        \
-		}
 
 const char sep_default = ' ';
 
@@ -54,8 +53,6 @@ int main(int argc, char **argv){
 	sqlite3 *db;
 	char *zErrMsg = 0;
 	int rc;
-	char** words;
-	int numwords = 0;
 	int columns = 1;
 	int head = 0;
 	char line[10000]; // TODO: Use a real getline implementation
@@ -74,107 +71,7 @@ int main(int argc, char **argv){
 	HANDLE_ERROR(rc);
 
 	// Parse stdin, expanding table where necessary
-	while(fgets(line, line_buffer_length, stdin)) {
-
-#ifdef DEBUG
-		printf("Line: %s\n", line);
-#endif
-
-		words = getwords(line, &numwords);
-
-#ifdef DEBUG
-		if( ! words ) {
-			fprintf(stderr, "No words on this line.\n");
-		}
-#endif
-
-#ifdef DEBUG
-		int j;
-		for(j = 0; j < numwords; j++) {
-			printf("Inside SQLBong - Word: [%s]\n", words[j]);
-		}
-#endif
-
-		// Adjust table size if needed
-		if(numwords > columns) {
-
-			char* command = malloc(sizeof(char) * 400); // TODO: Overrun possibility (slight); Free later
-
-			while(columns < numwords) {
-				columns++;
-				sprintf(command, "alter table data add column c%d", columns);
-
-#ifdef DEBUG
-				printf("Adding new column with command [%s]\n", command);
-#endif
-
-				// TODO: Ensure that this is okay
-				rc = sqlite3_exec(db, command, NULL, NULL, &zErrMsg);
-				HANDLE_ERROR(rc);
-			}
-		}
-
-		if(numwords < 1) {
-
-			rc = sqlite3_exec(db, "insert into data(c1) values(NULL)", NULL, NULL, &zErrMsg);
-			HANDLE_ERROR(rc);
-
-		} else {
-
-			char* insert_statement = insert(numwords);
-
-#ifdef DEBUG
-			printf("Created insert statement [%s].\n", insert_statement);
-#endif
-
-			sqlite3_stmt *stmt;
-
-			if ( sqlite3_prepare( db, insert_statement, -1, &stmt, 0 ) != SQLITE_OK ) {
-				fprintf(stderr, "Could not prepare statement [%s]\n.", insert_statement);
-				return 1;
-			}
-
-#ifdef DEBUG
-			printf("Prepared insert statement.\n");
-#endif
-
-			int i;
-			for(i = 0; i < numwords; i++) {
-
-				// SQLITE_TRANSIENT allows words to be freed
-				if ( sqlite3_bind_text ( stmt, i+1, words[i], -1 /* length of text */, SQLITE_TRANSIENT ) != SQLITE_OK ) {
-					fprintf(stderr,"\nCould not bind int to word [%s].\n", words[i]);
-					return 1;
-				}
-
-#ifdef DEBUG
-				printf("Bound word [%s].\n", words[i]);
-#endif
-
-#ifdef DEBUG
-				printf("Freeing word [%s].\n", words[i]);
-#endif
-				// free(words[i]);
-#ifdef DEBUG
-				printf("Freed word.\n");
-#endif
-
-			}
-			free(words); // words is no longer used
-
-#ifdef DEBUG
-			printf("Freed words.\n");
-#endif
-
-			if (sqlite3_step(stmt) != SQLITE_DONE) {
-				fprintf(stderr,"\nCould not step (execute) stmt.\n");
-				return 1;
-			}
-
-			sqlite3_reset(stmt);
-			free(insert_statement);
-		}
-	}
+	while(fgets(line, line_buffer_length, stdin)) { process_line(line, &columns, db); }
 
 	// Run all queries
 	for( head=1; head <= argc; head++ ) {

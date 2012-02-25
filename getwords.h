@@ -6,8 +6,8 @@
 char** getwords(char* line, int* numwords) { // TODO: Take a size param to make this safe
 
 	char* word;
-	int cap = 0;
-	char** result = malloc(1);
+	int    cap    = 10; // Start with 10 word limit
+	char** result = malloc(cap * sizeof(char*));
 
 	*numwords = 0;
 
@@ -18,8 +18,8 @@ char** getwords(char* line, int* numwords) { // TODO: Take a size param to make 
 #endif
 
 		if(*numwords >= cap / 2) {
-			cap = (cap + 2) * 2 * sizeof(char*); // TODO: Why does this need to be cap + 2 ?
-			result = realloc(result, cap);
+			cap = (cap + 2) * 2; // TODO: Why does this need to be cap + 2 ?
+			result = realloc(result, cap * sizeof(char*));
 #ifdef DEBUG
 			printf("Inside getwords - Reallocated.\n");
 #endif

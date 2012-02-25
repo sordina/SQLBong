@@ -1,3 +1,6 @@
+#ifndef BUILD_INSERTH
+#define BUILD_INSERTH
+
 #include <stdio.h>
 #include <math.h>
 
@@ -44,3 +47,5 @@ char* insert(int num) {
 
 	return result;
 }
+
+#endif
