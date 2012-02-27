@@ -4,7 +4,7 @@ Options  = -Wall sqlbong.c -lsqlite3 -o sqlbong
 all: usage
 	${Compiler} ${Options}
 
-debug:
+debug: usage
 	${Compiler} -ggdb -DDEBUG=1 ${Options}
 
 clean:
@@ -15,9 +15,13 @@ test: all runtests
 testdebug: debug runtests
 
 usage:
-	echo "void usage() {"                                      > usage.h
-	cat README.md | sed 's/"/\\"/g;s/^/printf("/;s/$$/\\n);/' >> usage.h
-	echo "}"                                                  >> usage.h
+	# Convert README.md to a printing function
+	echo "#ifndef USAGEH"                                            > usage.h
+	echo "#define USAGEH"                                           >> usage.h
+	echo "void usage() {"                                           >> usage.h
+	cat README.md | sed 's/["%\\]/\\&/g;s/^/printf("/;s/$$/\\n");/' >> usage.h
+	echo "}"                                                        >> usage.h
+	echo "#endif"                                                   >> usage.h
 
 runtests:
 	# Multi column data

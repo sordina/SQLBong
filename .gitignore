@@ -5,3 +5,4 @@ sqlpipe.dSYM/
 *.o
 *.h.gch
 *.db
+usage.h

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "usage.h"
 
 typedef struct globalArgs_t {
 	char* file;
@@ -36,6 +37,9 @@ globalArgs getOpts(int argc, char** argv) {
 			result.file = argv[i+2]; // TODO: Why is this +2?
 			result.num++;
 
+		} else if(strcmp("-h",argv[i])) {
+			usage();
+			exit(1);
 		// } else if(strcmp("-d",argv[i])) {
 		//	result.delimiter = argv[i+2];
 		//	result.num++;
