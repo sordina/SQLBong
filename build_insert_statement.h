@@ -13,8 +13,8 @@ char* insert(int num) {
 	// TODO: This is quite fragile be careful if modifying
 	const char* dstmt      = "insert into data()";
 	const char* vstmt      = " values()";
-	const int   dlen       = strlen(dstmt) - 1;
-	const int   vlen       = strlen(vstmt) - 1;
+	const int   dlen       = strlen(dstmt);
+	const int   vlen       = strlen(vstmt);
 	const int   boiler_len = dlen + vlen;
 	const int   dyn_factor = 1 + (int) log10(num);
 	const int   dyn_len    = dyn_factor * num; // represents the size of the column-number text (minus formatting) (overshoots estimate by log(n) factor)
@@ -23,7 +23,7 @@ char* insert(int num) {
 	char*       p          = result; // movable pointer for printing
 
 	memcpy(p, dstmt, dlen);
-	p += dlen;
+	p += dlen - 1;
 
 	int i;
 	for(i = 1; i <= num; i++) {
@@ -35,7 +35,7 @@ char* insert(int num) {
 	p[-1] = ')';
 
 	memcpy(p, vstmt, vlen);
-	p += vlen;
+	p += vlen - 1;
 
 	for(i = 0; i < num; i++) {
 		*p = '?'; p++;
