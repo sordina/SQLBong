@@ -9,7 +9,7 @@ The SQL syntax accepted is completely determined by what SQLite3 supports.
 
 Why the name? Because `SQLPipe` was taken.
 
-## Usage:
+## Examples:
 
     > ps | ./sqlbong "select * from data"
 
@@ -19,7 +19,23 @@ Why the name? Because `SQLPipe` was taken.
 
   Send columnized data from data.txt into an sqlite database foo.db
 
-## Example:
+    Server> nc -l 1234 | ./sqlbong -f out.db
+
+    Client> nc 127.0.0.1 1234
+    hello world
+    how   are
+    you   ?
+
+    Server> sqlite3 out.db ".dump"
+    PRAGMA foreign_keys=OFF;
+    BEGIN TRANSACTION;
+    CREATE TABLE data (c1, c2);
+    INSERT INTO "data" VALUES('hello','world');
+    INSERT INTO "data" VALUES('how','are');
+    INSERT INTO "data" VALUES('you','?');
+    COMMIT;
+
+  Log output to a database on a remote server.
 
     > cat test.txt | ./sqlbong "select c2 from data limit 2" "select c1, c3, c2 from data where c2 > '4' order by c3 desc"
 
@@ -45,6 +61,7 @@ Details:
 
 * The table used is called 'data'
 * There are as many columns in 'data' as the maximum number of columns in the input data
+* The columns are labled (c1 .. c\<n\>)
 * Data is stored as 'text' type (useful to remember for comparisons, numeric operations)
 
 Known Bugs
@@ -63,3 +80,6 @@ To Do
   - Specify to use file database rather than memory (temporary or permanent)
   - Allow specifying the table name
   - Existing database files, or overwrite
+
+
+
