@@ -7,8 +7,9 @@
 typedef struct globalArgs_t {
 	char* file;
 	int num;
-	// int overwrite;   // TODO: Useful option
-	// char* delimiter; // TODO: Useful option
+	// int overwrite;    // TODO: Useful option
+	// char* delimiter;  // TODO: Useful option
+	// char* table_name; // TODO: Useful option
 } globalArgs;
 
 globalArgs getOpts(int argc, char** argv) {
@@ -18,8 +19,9 @@ globalArgs getOpts(int argc, char** argv) {
 
 	result.file      = NULL;
 	result.num       = 0;
-	// result.overwrite = 1;
-	// result.delimiter = NULL;
+	// result.table_name = NULL
+	// result.overwrite  = 1;
+	// result.delimiter  = NULL;
 	
 #ifdef DEBUG
 	printf("Inside Options - Printing arguments:\n");

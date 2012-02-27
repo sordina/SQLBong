@@ -3,9 +3,9 @@ SQLBong
 =======
 
 
-Parse columnized output with SQL - Thanks to the power of SQLite3
+Parse columnized output with SQL - Thanks to the power of <a href="http://www.sqlite.org/">SQLite3</a>.
 
-The SQL syntax accepted is completely determined by what <a href="http://www.sqlite.org/">SQLite3</a> supports.
+The SQL syntax accepted is completely determined by what SQLite3 supports.
 
 Why the name? Because `SQLPipe` was taken.
 
@@ -61,5 +61,5 @@ To Do
   - Specify alignment for input data if columns are missing
   - Specify how to handle nulls for input, and output
   - Specify to use file database rather than memory (temporary or permanent)
-  - Named tables
+  - Allow specifying the table name
   - Existing database files, or overwrite
