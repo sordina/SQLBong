@@ -1,5 +1,6 @@
-  PID TTY           TIME CMD
-49241 ttys000    0:00.13 -fish
-45041 ttys001    3:41.99 -fish
-82797 ttys002    0:39.86 -fish
-97899 ttys002    0:03.05 vim getword.h
+1 2 3
+2 3 4
+3 4 5
+4 5 6
+5 6 7
+6 7 8
