@@ -77,7 +77,7 @@ void process_line(char* line, int* columns, sqlite3* db) {
 
 		// SQLITE_TRANSIENT allows words to be freed
 		if ( sqlite3_bind_text( stmt, i+1, words[i], -1 /* length of text */, SQLITE_TRANSIENT ) != SQLITE_OK ) {
-			fprintf(stderr,"\nCould not bind int to word [%s].\n", words[i]);
+			fprintf(stderr,"\nCould not bind text [%s].\n", words[i]);
 			exit(1);
 		}
 
@@ -88,7 +88,7 @@ void process_line(char* line, int* columns, sqlite3* db) {
 #ifdef DEBUG
 		printf("Freeing word [%s].\n", words[i]);
 #endif
-		// free(words[i]);
+		free(words[i]);
 #ifdef DEBUG
 		printf("Freed word.\n");
 #endif

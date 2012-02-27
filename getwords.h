@@ -5,8 +5,8 @@
 
 char** getwords(char* line, int* numwords) { // TODO: Take a size param to make this safe
 
-	char* word;
-	int    cap    = 10; // Start with 10 word limit
+	char*  word;
+	int    cap    = 2; // Start with 2 word limit
 	char** result = malloc(cap * sizeof(char*));
 
 	*numwords = 0;

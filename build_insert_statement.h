@@ -19,7 +19,7 @@ char* insert(int num) {
 	const int   dyn_factor = 1 + (int) log10(num);
 	const int   dyn_len    = dyn_factor * num; // represents the size of the column-number text (minus formatting) (overshoots estimate by log(n) factor)
 	char*       dyn_part   = malloc(sizeof(char) * dyn_factor + 3); // constant is 'c' ',' '\0'
-	char*       result     = malloc(sizeof(char) * (boiler_len + (3 * num) + dyn_len));
+	char*       result     = malloc(sizeof(char) * (boiler_len + (3 * num) + dyn_len) + 2);
 	char*       p          = result; // movable pointer for printing
 
 	memcpy(p, dstmt, dlen);
@@ -44,6 +44,12 @@ char* insert(int num) {
 
 	p[-1] = ')';
 	p[ 0] = '\0';
+	p[ 1] = '\0';
+	p[ 2] = '\0';
+	// TODO: Check UTF8 fix
+	//
+	
+	printf("Inside build_insert_statement - Created result [%s].\n", result);
 
 	return result;
 }
