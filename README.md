@@ -7,7 +7,17 @@ Parse columnized output with SQL - Thanks to the power of SQLite3
 
 The SQL syntax accepted is completely determined by what <a href="http://www.sqlite.org/">SQLite3</a> supports.
 
-Why the name? `SQLPipe` was taken.
+Why the name? Because `SQLPipe` was taken.
+
+## Usage:
+
+    > ps | ./sqlbong "select * from data"
+
+  Acts like cat, but normalises the delimiters to one space - Passthrough.
+
+    > cat data.txt | ./sqlbong -f foo.db
+
+  Send columnized data from data.txt into an sqlite database foo.db
 
 ## Example:
 
@@ -40,8 +50,8 @@ Details:
 Known Bugs
 ----------
 
-* Does not currently handle all input
 * Realloc requires too much memory in getwords.h
+* Some dodgey argc mangling going on
 
 To Do
 -----

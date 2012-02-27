@@ -11,6 +11,7 @@
 #include "getwords.h"
 #include "build_insert_statement.h"
 #include "process_line.h"
+#include "options.h"
 
 /*
  * Example: (echo "1 2 3"; echo "4 5 6"; echo "7 8 9") | sqlbong "select c1 c3 from data" "select c2 + c3 from data where c1 + c2 > 5 order by c3 desc"
@@ -63,8 +64,14 @@ int main(int argc, char **argv){
 		return(1);
 	}
 
+	globalArgs options = getOpts(argc, argv);
+
 	// Create a database in memory
-	rc = sqlite3_open(":memory:", &db);
+	if(options.file) {
+		rc = sqlite3_open(options.file, &db);
+	} else {
+		rc = sqlite3_open(":memory:", &db);
+	}
 
 	// Create a table with an inital 9 columns. Why 9? Because.
 	rc = sqlite3_exec(db, "create table data (c1)", NULL, NULL, &zErrMsg);
@@ -74,7 +81,7 @@ int main(int argc, char **argv){
 	while(fgets(line, line_buffer_length, stdin)) { process_line(line, &columns, db); }
 
 	// Run all queries
-	for( head=1; head <= argc; head++ ) {
+	for( head=1 + options.num * 2; head <= argc; head++ ) {
 
 #ifdef DEBUG
 		printf("Query: %s\n", argv[head]);
