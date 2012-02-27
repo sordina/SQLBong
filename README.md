@@ -51,3 +51,5 @@ To Do
   - Specify alignment for input data if columns are missing
   - Specify how to handle nulls for input, and output
   - Specify to use file database rather than memory (temporary or permanent)
+  - Named tables
+  - Existing database files, or overwrite
