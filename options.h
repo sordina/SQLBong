@@ -15,6 +15,10 @@ typedef struct globalArgs_t {
 
 globalArgs getOpts(int argc, char** argv) {
 
+#ifdef DEBUG
+	printf("Inside getOpts - Argc [%d].\n", argc);
+#endif
+
 	int i;
 	globalArgs result;
 
@@ -23,26 +27,20 @@ globalArgs getOpts(int argc, char** argv) {
 	// result.table_name = NULL
 	// result.overwrite  = 1;
 	// result.delimiter  = NULL;
-	
-#ifdef DEBUG
-	printf("Inside Options - Printing arguments:\n");
-	for(i = 0; i < argc; i++ ) {
-		printf("Arg %d - [%s].\n", i, argv[i]);
-	}
-#endif
 
 	// NOTE: Incrementing i by 2 as all flags take a param
-	for(i = 0; i < argc - 1; i += 2 ) {
-		if(strcmp("-f",argv[i])) {
-			result.file = argv[i+2]; // TODO: Why is this +2?
-			result.num++;
-
-		} else if(strcmp("-h",argv[i])) {
+	for(i = 0; i < argc; i++) {
+#ifdef DEBUG
+		printf("Inside getOpts - Arg %d - [%s].\n", i, argv[i]);
+#endif
+		if(0 == strcmp("-f", argv[i])) {
+			result.file = argv[i+1]; // TODO: Why is this +2?
+			result.num += 2;
+			i++;
+		} else
+		if(0 == strcmp("-h",argv[i])) {
 			usage();
 			exit(1);
-		// } else if(strcmp("-d",argv[i])) {
-		//	result.delimiter = argv[i+2];
-		//	result.num++;
 		}
 	}
 

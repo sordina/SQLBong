@@ -55,14 +55,16 @@ int main(int argc, char **argv){
 	char *zErrMsg = 0;
 	int rc;
 	int columns = 1;
-	int head = 0;
-	char line[10000]; // TODO: Use a real getline implementation
-	int line_buffer_length = 1000;
+	int i;
+	char line[2000]; // TODO: Use a real getline implementation
+	int line_buffer_length = 2000;
 
 	if( ! --argc ) {
-		fprintf(stderr, "Usage: %s <sql>*\n", argv[0]);
-		return(1);
+		fprintf(stderr, "Usage: %s [-h] [-f <output_database>] <sql>*\n", argv[0]);
+		exit(1);
 	}
+
+	argv++;
 
 	globalArgs options = getOpts(argc, argv);
 
@@ -81,14 +83,14 @@ int main(int argc, char **argv){
 	while(fgets(line, line_buffer_length, stdin)) { process_line(line, &columns, db); }
 
 	// Run all queries
-	for( head=1 + options.num * 2; head <= argc; head++ ) {
+	for( i=0 + options.num; i <= argc; i++ ) {
 
 #ifdef DEBUG
-		printf("Query: %s\n", argv[head]);
+		printf("Query: %s\n", argv[i]);
 		printf("Results:\n");
 #endif
 
-		rc = sqlite3_exec(db, argv[head], callback, NULL, &zErrMsg);
+		rc = sqlite3_exec(db, argv[i], callback, NULL, &zErrMsg);
 		HANDLE_ERROR(rc);
 	}
 
