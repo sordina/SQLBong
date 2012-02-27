@@ -1,7 +1,7 @@
 Compiler = clang
 Options  = -Wall sqlbong.c -lsqlite3 -o sqlbong
 
-all:
+all: usage
 	${Compiler} ${Options}
 
 debug:
@@ -13,6 +13,11 @@ clean:
 test: all runtests
 
 testdebug: debug runtests
+
+usage:
+	echo "void usage() {"                                      > usage.h
+	cat README.md | sed 's/"/\\"/g;s/^/printf("/;s/$$/\\n);/' >> usage.h
+	echo "}"                                                  >> usage.h
 
 runtests:
 	# Multi column data
