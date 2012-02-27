@@ -12,6 +12,7 @@ void process_line(char* line, int* columns, sqlite3* db) {
 	int    return_code;
 	char*  zErrMsg;
 	int    numwords;
+	char   command[400];
 
 #ifdef DEBUG
 	printf("Inside process_line - Line: %s\n", line);
@@ -32,8 +33,6 @@ void process_line(char* line, int* columns, sqlite3* db) {
 
 	// Adjust table size if needed
 	if(numwords > *columns) {
-
-		char* command = malloc(sizeof(char) * 400); // TODO: Overrun possibility (slight); Free later
 
 		while(*columns < numwords) {
 			(*columns)++;

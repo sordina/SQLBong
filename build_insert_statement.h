@@ -52,6 +52,8 @@ char* insert(int num) {
 	printf("Inside build_insert_statement - Created result [%s].\n", result);
 #endif
 
+	free(dyn_part);
+
 	return result;
 }
 
