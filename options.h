@@ -34,7 +34,7 @@ globalArgs getOpts(int argc, char** argv) {
 		printf("Inside getOpts - Arg %d - [%s].\n", i, argv[i]);
 #endif
 		if(0 == strcmp("-f", argv[i])) {
-			result.file = argv[i+1]; // TODO: Why is this +2?
+			result.file = argv[i+1];
 			result.num += 2;
 			i++;
 		} else
