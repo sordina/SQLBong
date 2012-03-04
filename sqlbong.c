@@ -13,16 +13,6 @@
 #include "process_line.h"
 #include "options.h"
 
-/*
- * Example: (echo "1 2 3"; echo "4 5 6"; echo "7 8 9") | sqlbong "select c1 c3 from data" "select c2 + c3 from data where c1 + c2 > 5 order by c3 desc"
- *
- * Output:  1  3
- *          4  6
- *          7  9
- *          17
- *          11
- */
-
 const char sep_default = ' ';
 
 static int callback(void* userArg, int count, char** columns, char** column_names){
