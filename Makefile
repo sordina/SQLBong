@@ -1,5 +1,5 @@
 Compiler = clang
-Options  = -Wall sqlbong.c -lsqlite3 -o sqlbong
+Options  = -Wall pcre_split.c sqlbong.c -lpcre -lsqlite3 -o sqlbong
 
 all: usage
 	${Compiler} ${Options}

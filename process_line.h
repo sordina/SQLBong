@@ -7,7 +7,7 @@
 #include "getwords.h"
 #include "build_insert_statement.h"
 
-void process_line(char* line, int* columns, sqlite3* db) {
+void process_line(char* line, int* columns, sqlite3* db, globalArgs options) {
 
 	int    return_code;
 	char*  zErrMsg;
@@ -18,7 +18,13 @@ void process_line(char* line, int* columns, sqlite3* db) {
 	printf("Inside process_line - Line: %s\n", line);
 #endif
 
-	char** words = getwords(line, &numwords);
+	char** words;
+
+	if(options.delimiter) {
+		words = getwordsregex(options.delimiter, line, &numwords);
+	} else {
+		words = getwords(line, &numwords);
+	}
 
 #ifdef DEBUG
 	if( numwords == 0 || ! words ) { fprintf(stderr, "No words on this line.\n"); }
@@ -82,9 +88,6 @@ void process_line(char* line, int* columns, sqlite3* db) {
 
 #ifdef DEBUG
 		printf("Bound word [%s].\n", words[i]);
-#endif
-
-#ifdef DEBUG
 		printf("Freeing word [%s].\n", words[i]);
 #endif
 		free(words[i]);

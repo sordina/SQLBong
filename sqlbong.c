@@ -9,9 +9,10 @@
 		}
 
 #include "getwords.h"
+#include "getwordsregex.h"
 #include "build_insert_statement.h"
-#include "process_line.h"
 #include "options.h"
+#include "process_line.h"
 
 const char sep_default = ' ';
 
@@ -56,6 +57,7 @@ int main(int argc, char **argv){
 
 	argv++;
 
+	// TODO: Fixme
 	globalArgs options = getOpts(argc, argv);
 
 	// Create a database in memory
@@ -70,7 +72,7 @@ int main(int argc, char **argv){
 	HANDLE_ERROR(rc);
 
 	// Parse stdin, expanding table where necessary
-	while(fgets(line, line_buffer_length, stdin)) { process_line(line, &columns, db); }
+	while(fgets(line, line_buffer_length, stdin)) { process_line(line, &columns, db, options); }
 
 	// Run all queries
 	for( i=0 + options.num; i <= argc; i++ ) {
