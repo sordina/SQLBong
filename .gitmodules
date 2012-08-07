@@ -1,3 +1,3 @@
 [submodule "pcre_split"]
 	path = pcre_split
-	url = https://github.com/daveisanidiot/pcre_split.git
+	url = https://github.com/petercrumb/pcre_split.git
