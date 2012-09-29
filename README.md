@@ -9,6 +9,8 @@ The SQL syntax accepted is completely determined by what SQLite3 supports.
 
 Why the name? Because `SQLPipe` was taken.
 
+<img src="https://raw.github.com/sordina/SQLBong/master/sqlbong.png" alt="The SQL Bong" />
+
 ## Examples:
 
     > ps | ./sqlbong "select * from data"
