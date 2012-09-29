@@ -69,7 +69,7 @@ Details:
 Known Bugs
 ----------
 
-* Regex delimitation can cause a segfaul on large data-sets
+* Regex delimitation can cause a segfault on large data-sets
 
 To Do
 -----
