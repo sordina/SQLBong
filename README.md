@@ -69,19 +69,12 @@ Details:
 Known Bugs
 ----------
 
-* Realloc requires too much memory in getwords.h
-* Some dodgey argc mangling going on
+* Regex delimitation can cause a segfaul on large data-sets
 
 To Do
 -----
 
-* Add support for command-line arguments
-  - Specify alignment for input data if columns are missing
-  - Specify how to handle nulls for input, and output
-  - Specify to use file database rather than memory (temporary or permanent)
-  - Allow specifying the table name
-  - Existing database files, or overwrite
-
+* Add options for reusing a database
 
 Usage
 -----
