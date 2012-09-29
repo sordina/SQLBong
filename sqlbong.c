@@ -51,7 +51,7 @@ int main(int argc, char **argv){
 	int line_buffer_length = 2000;
 
 	if( ! --argc ) {
-		fprintf(stderr, "Usage: %s [-h] [-f <output_database>] <sql>*\n", argv[0]);
+		fprintf(stderr, "Usage: %s [-h] [-f <output_database>] [-d <regex_delimiter>] <sql>*\n", argv[0]);
 		exit(1);
 	}
 

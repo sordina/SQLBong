@@ -86,7 +86,7 @@ To Do
 Usage
 -----
 
-Accepts data on STDIN, takes sql statements as arguments (make sure you quote them) and outputs data selected on STDOUT.
+Accepts data on STDIN, takes SQL statements as arguments (make sure you quote them) and outputs data selected on STDOUT.
 
 Usage:
 
@@ -94,6 +94,11 @@ Usage:
 
 Options:
 
-    -h - Help
-    -d - Regex delimiter
-    -f - On disk database (defaults to in-memory)
+    -h  Help
+    -d  Regex delimiter
+    -f  On disk database (defaults to in-memory)
+
+SQL:
+
+    Columns - c1..cn
+    Table   - data
