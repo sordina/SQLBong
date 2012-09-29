@@ -76,7 +76,6 @@ To Do
 -----
 
 * Add support for command-line arguments
-  - Specify delimiter (regex?)
   - Specify alignment for input data if columns are missing
   - Specify how to handle nulls for input, and output
   - Specify to use file database rather than memory (temporary or permanent)
@@ -84,4 +83,17 @@ To Do
   - Existing database files, or overwrite
 
 
+Usage
+-----
 
+Accepts data on STDIN, takes sql statements as arguments (make sure you quote them) and outputs data selected on STDOUT.
+
+Usage:
+
+    sqlbong [-h] [-f <database file>] [-d <regex delimiter>] <sql statement>*
+
+Options:
+
+    -h - Help
+    -d - Regex delimiter
+    -f - On disk database (defaults to in-memory)
