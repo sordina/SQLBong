@@ -16,12 +16,12 @@ testdebug: debug runtests
 
 usage:
 	# Convert README.md to a printing function
-	echo "#ifndef USAGEH"                                            > usage.h
-	echo "#define USAGEH"                                           >> usage.h
-	echo "void usage() {"                                           >> usage.h
-	cat README.md | sed 's/["%\\]/\\&/g;s/^/printf("/;s/$$/\\n");/' >> usage.h
-	echo "}"                                                        >> usage.h
-	echo "#endif"                                                   >> usage.h
+	echo "#ifndef USAGEH"                                                             > usage.h
+	echo "#define USAGEH"                                                            >> usage.h
+	echo "void usage() {"                                                            >> usage.h
+	cat README.md | sed 's/["%\\]/\\&/g;s/^/printf("/;s/$$/\\n");/' | grep -v '<img' >> usage.h
+	echo "}"                                                                         >> usage.h
+	echo "#endif"                                                                    >> usage.h
 
 runtests:
 	# Multi column data

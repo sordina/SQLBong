@@ -3,7 +3,7 @@ SQLBong
 =======
 
 
-Parse columnized output with SQL - Thanks to the power of <a href="http://www.sqlite.org/">SQLite3</a>.
+Parse columnized output with SQL - Thanks to the power of [SQLite3](http://www.sqlite.org/).
 
 The SQL syntax accepted is completely determined by what SQLite3 supports.
 
@@ -95,6 +95,5 @@ SQL:
 
     Columns - c1..cn
     Table   - data
-
 
 
