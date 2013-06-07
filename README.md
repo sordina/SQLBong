@@ -13,15 +13,15 @@ Why the name? Because `SQLPipe` was taken.
 
 ## Examples:
 
-    > ps | ./sqlbong "select * from data"
+    > ps | sqlbong "select * from data"
 
   Acts like cat, but normalises the delimiters to one space - Passthrough.
 
-    > cat data.txt | ./sqlbong -f foo.db
+    > cat data.txt | sqlbong -f foo.db
 
   Send columnized data from data.txt into an sqlite database foo.db
 
-    Server> nc -l 1234 | ./sqlbong -f out.db
+    Server> nc -l 1234 | sqlbong -f out.db
 
     Client> nc 127.0.0.1 1234
     hello world
@@ -39,7 +39,7 @@ Why the name? Because `SQLPipe` was taken.
 
   Log output to a database on a remote server.
 
-    > cat test.txt | ./sqlbong "select c2 from data limit 2" "select c1, c3, c2 from data where c2 > '4' order by c3 desc"
+    > cat test.txt | sqlbong "select c2 from data limit 2" "select c1, c3, c2 from data where c2 > '4' order by c3 desc"
 
 ### test.txt:
 
