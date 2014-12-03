@@ -14,7 +14,7 @@ test: all runtests
 
 testdebug: debug runtests
 
-upload:
+upload: all
 	$(eval zipfile := $(shell echo "sqlbong-0.1.0-`git rev-parse --short HEAD`-`sw_vers -productName | sed 's/ //g'`-`sw_vers -productVersion`-`sw_vers -buildVersion`.zip"))
 	zip $(zipfile) sqlbong README.md
 	s3cmd put --acl-public $(zipfile) s3://sordina.binaries/$(zipfile)
