@@ -7,12 +7,26 @@
 #include "getwords.h"
 #include "build_insert_statement.h"
 
+// Dangerous and stupid, but we're already doing this stringy stuff, so let's do it anyway!
+void remove_newlines(char* line) {
+	char* p = line;
+	while(*p) {
+		if(*p == '\n') {
+			*p = 0;
+			break;
+		}
+		p++;
+	}
+}
+
 void process_line(char* line, int* columns, sqlite3* db, globalArgs options) {
 
 	int    return_code;
 	char*  zErrMsg;
 	int    numwords;
 	char   command[400];
+
+	remove_newlines(line);
 
 #ifdef DEBUG
 	printf("Inside process_line - Line: %s\n", line);
