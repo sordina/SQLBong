@@ -6,3 +6,4 @@ sqlpipe.dSYM/
 *.h.gch
 *.db
 usage.h
+*.zip

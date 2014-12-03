@@ -69,7 +69,7 @@ Details:
 Known Bugs
 ----------
 
-* Regex delimitation can cause a segfault on large data-sets
+* Not all memory if freed correctly
 
 To Do
 -----
@@ -97,3 +97,7 @@ SQL:
     Table   - data
 
 
+Binaries
+--------
+
+* <http://sordina.binaries.s3.amazonaws.com/sqlbong-0.1.0-2931cd0-MacOSX-10.9.5-13F34.zip>
