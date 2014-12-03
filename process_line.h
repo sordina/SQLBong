@@ -88,12 +88,15 @@ void process_line(char* line, int* columns, sqlite3* db, globalArgs options) {
 
 #ifdef DEBUG
 		printf("Bound word [%s].\n", words[i]);
-		printf("Freeing word [%s].\n", words[i]);
 #endif
-		free(words[i]);
-#ifdef DEBUG
-		printf("Freed word.\n");
-#endif
+// No longer freeing this memory as it seems to cause a segfault
+// This should be able to be freed, but I can't identify the real cause for the
+// segfault, so taking it out for now.
+//
+// The fact that this isn't being freed may cause a memory-leak proportional to the
+// number of words bound in the query... Which shouldn't be much.
+//
+// free(words[i]);
 
 	}
 	free(words); // words is no longer used

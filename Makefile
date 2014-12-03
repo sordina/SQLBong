@@ -42,3 +42,4 @@ runtests:
 	# Lots of words
 	echo a b c d e f g h i j k l m n o p q r s t u v w x y | ./sqlbong "select * from data"
 	(echo 1_3_2_4; echo 5___6__7_8)                        | ./sqlbong -d '_+' "select c1,c2 from data"
+	./sqlbong -d , 'select * from data' < test.csv > /dev/null
