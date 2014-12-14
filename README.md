@@ -11,6 +11,16 @@ Why the name? Because `SQLPipe` was taken.
 
 <img src="https://raw.github.com/sordina/SQLBong/master/sqlbong.png" alt="The SQL Bong" />
 
+## Alternatives:
+
+* <https://github.com/dinedal/textql>
+* <https://github.com/julianhyde/optiq>
+* <https://github.com/tobimensch/termsql>
+* <http://www.steve.org.uk/Software/asql/>
+* <https://github.com/dergachev/csv2sqlite>
+* <http://rogerbinns.github.io/apsw/shell.html>
+* <http://hackage.haskell.org/package/txt-sushi>
+
 ## Examples:
 
     > ps | sqlbong "select * from data"
@@ -75,6 +85,7 @@ To Do
 -----
 
 * Add options for reusing a database
+* Check out <http://www.sqlite.org/vtab.html> for faster table creation
 
 Usage
 -----
