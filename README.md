@@ -13,6 +13,7 @@ Why the name? Because `SQLPipe` was taken.
 
 ## Alternatives:
 
+* <https://github.com/harelba/q>
 * <https://github.com/dinedal/textql>
 * <https://github.com/julianhyde/optiq>
 * <https://github.com/tobimensch/termsql>
