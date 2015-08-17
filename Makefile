@@ -47,6 +47,7 @@ runtests:
 	echo "95585 ttys002    0:03.11 vim sqlbong.c"          | ./sqlbong "select * from data"
 	# Lots of words
 	echo a b c d e f g h i j k l m n o p q r s t u v w x y | ./sqlbong "select * from data"
+	echo 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16            | ./sqlbong "select c15 from data" | grep 15
 	(echo 1_3_2_4; echo 5___6__7_8)                        | ./sqlbong -d '_+' "select c1,c2 from data"
 	./sqlbong -d , 'select * from data' < test.csv > /dev/null
 	(echo 1 2 3; echo 1 2)                                 | ./sqlbong -d ' ' 'select * from data' | wc -l | grep 2
