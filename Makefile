@@ -1,7 +1,7 @@
 Compiler = clang
 Options  = -lm -Wall pcre_split.c sqlbong.c -lpcre -lsqlite3 -o sqlbong
 
-all: usage
+all: usage pcre_split
 	${Compiler} ${Options}
 
 debug: usage
@@ -11,6 +11,10 @@ clean:
 	rm -rf sqlbong *.o sql*SYM/
 
 test: all runtests
+
+pcre_split:
+	git submodule init
+	git submodule update
 
 testdebug: debug runtests
 
