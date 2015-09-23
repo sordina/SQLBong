@@ -80,7 +80,7 @@ Details:
 Known Bugs
 ----------
 
-* Not all memory if freed correctly
+* Not all memory is freed correctly
 
 To Do
 -----

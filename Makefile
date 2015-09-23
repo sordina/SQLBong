@@ -2,29 +2,35 @@ CLANG_OPTS = -I /usr/local/include -L /usr/local/lib
 Compiler   = clang
 Options    = -lm -Wall pcre_split.c sqlbong.c -lpcre -lsqlite3 -o sqlbong
 
-all: usage pcre_split
+sqlbong: usage.h sqlbong.c pcre_split
 	${Compiler} ${CLANG_OPTS} ${Options}
 
-debug: usage
+install: sqlbong
+	cp sqlbong /usr/local/bin/
+
+uninstall:
+	rm /usr/local/bin/sqlbong
+
+debug: usage.h
 	${Compiler} ${CLANG_OPTS} -ggdb -DDEBUG=1 ${Options}
 
 clean:
-	rm -rf sqlbong *.o sql*SYM/
+	rm -rf sqlbong *.o sql*SYM/ usage.h
 
-test: all runtests
+test: sqlbong runtests
 
 pcre_split:
 	git submodule update --init --recursive
 
 testdebug: debug runtests
 
-upload: all
+upload: sqlbong
 	$(eval zipfile := $(shell echo "sqlbong-0.1.0-`git rev-parse --short HEAD`-`sw_vers -productName | sed 's/ //g'`-`sw_vers -productVersion`-`sw_vers -buildVersion`.zip"))
 	zip $(zipfile) sqlbong README.md
 	s3cmd put --acl-public $(zipfile) s3://sordina.binaries/$(zipfile)
 	rm $(zipfile)
 
-usage:
+usage.h:
 	# Convert README.md to a printing function
 	echo "#ifndef USAGEH"                                                             > usage.h
 	echo "#define USAGEH"                                                            >> usage.h
