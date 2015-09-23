@@ -5,12 +5,15 @@ Options    = -lm -Wall pcre_split.c sqlbong.c -lpcre -lsqlite3 -o sqlbong
 sqlbong: pcre_split/src usage.h *.c *.h
 	${Compiler} ${CLANG_OPTS} ${Options}
 
+.PHONY: install
 install: sqlbong
 	cp sqlbong /usr/local/bin/
 
+.PHONY: uninstall
 uninstall:
 	rm /usr/local/bin/sqlbong
 
+.PHONY: debug
 debug: clean usage.h
 	${Compiler} ${CLANG_OPTS} -ggdb -DDEBUG=1 ${Options}
 
@@ -18,13 +21,16 @@ debug: clean usage.h
 clean:
 	rm -rf sqlbong *.o sql*SYM/ usage.h
 
+.PHONY: test
 test: sqlbong runtests
+
+.PHONY: testdebug
+testdebug: debug runtests
 
 pcre_split/src:
 	git submodule update --init --recursive
 
-testdebug: debug runtests
-
+.PHONY: upload
 upload: sqlbong
 	$(eval zipfile := $(shell echo "sqlbong-0.1.0-`git rev-parse --short HEAD`-`sw_vers -productName | sed 's/ //g'`-`sw_vers -productVersion`-`sw_vers -buildVersion`.zip"))
 	zip $(zipfile) sqlbong README.md
@@ -40,6 +46,7 @@ usage.h:
 	echo "}"                                                                         >> usage.h
 	echo "#endif"                                                                    >> usage.h
 
+.PHONY: runtests
 runtests:
 	# Multi column data
 	(echo 111 222 333; echo 444 555 666; echo 777 888 999) | ./sqlbong "select c1, c2 from data"
