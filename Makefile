@@ -1,8 +1,9 @@
-Compiler = clang
-Options  = -lm -Wall pcre_split.c sqlbong.c -lpcre -lsqlite3 -o sqlbong
+CLANG_OPTS = -I /usr/local/include -L /usr/local/lib
+Compiler   = clang
+Options    = -lm -Wall pcre_split.c sqlbong.c -lpcre -lsqlite3 -o sqlbong
 
 all: usage pcre_split
-	${Compiler} ${Options}
+	${Compiler} ${CLANG_OPTS} ${Options}
 
 debug: usage
 	${Compiler} -ggdb -DDEBUG=1 ${Options}
@@ -13,8 +14,7 @@ clean:
 test: all runtests
 
 pcre_split:
-	git submodule init
-	git submodule update
+	git submodule update --init --recursive
 
 testdebug: debug runtests
 
