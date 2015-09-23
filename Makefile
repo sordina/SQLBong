@@ -2,7 +2,7 @@ CLANG_OPTS = -I /usr/local/include -L /usr/local/lib
 Compiler   = clang
 Options    = -lm -Wall pcre_split.c sqlbong.c -lpcre -lsqlite3 -o sqlbong
 
-sqlbong: pcre_split usage.h *.c *.h
+sqlbong: pcre_split/src usage.h *.c *.h
 	${Compiler} ${CLANG_OPTS} ${Options}
 
 install: sqlbong
@@ -20,7 +20,7 @@ clean:
 
 test: sqlbong runtests
 
-pcre_split:
+pcre_split/src:
 	git submodule update --init --recursive
 
 testdebug: debug runtests
