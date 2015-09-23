@@ -6,7 +6,7 @@ all: usage pcre_split
 	${Compiler} ${CLANG_OPTS} ${Options}
 
 debug: usage
-	${Compiler} -ggdb -DDEBUG=1 ${Options}
+	${Compiler} ${CLANG_OPTS} -ggdb -DDEBUG=1 ${Options}
 
 clean:
 	rm -rf sqlbong *.o sql*SYM/
