@@ -11,9 +11,10 @@ install: sqlbong
 uninstall:
 	rm /usr/local/bin/sqlbong
 
-debug: usage.h
+debug: clean usage.h
 	${Compiler} ${CLANG_OPTS} -ggdb -DDEBUG=1 ${Options}
 
+.PHONY: clean
 clean:
 	rm -rf sqlbong *.o sql*SYM/ usage.h
 

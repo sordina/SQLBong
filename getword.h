@@ -15,7 +15,7 @@ char* getword(char delim, char** line) {
 	}
 
 	char* word_start = *line;
-	char* word_end;
+	char* word_end   = *line - 1;
 
 	// Is this an empty line?
 	if((!line) || **line == EOF || **line == '\n') { return NULL; }
