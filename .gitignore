@@ -2,6 +2,7 @@ sqlbong
 sqlbong.dSYM/
 sqlpipe
 sqlpipe.dSYM/
+pcre_split
 *.o
 *.h.gch
 *.db
