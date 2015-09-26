@@ -112,6 +112,7 @@ SQL:
 Binaries
 --------
 
+* <http://sordina.binaries.s3.amazonaws.com/sqlbong-0.1.0-af729a0-MacOSX-10.9.5-13F1077.zip>
 * <http://sordina.binaries.s3.amazonaws.com/sqlbong-0.1.0-0505a80-freebsd-10.2.zip>
 * <http://sordina.binaries.s3.amazonaws.com/sqlbong-0.1.0-738623c-MacOSX-10.9.5-13F1077.zip>
 * <http://sordina.binaries.s3.amazonaws.com/sqlbong-0.1.0-263fc04-MacOSX-10.9.5-13F34.zip>
